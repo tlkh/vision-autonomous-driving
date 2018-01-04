@@ -3,6 +3,9 @@
 .AppleDouble
 .LSOverride
 
+Python
+_pycache_
+
 # Icon must end with two \r
 Icon
 
