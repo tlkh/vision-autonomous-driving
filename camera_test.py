@@ -81,16 +81,16 @@ try:
         roi_v = int(rows/2) - 2
         raw = feed[roi_v:rows, 0:cols]
         
-        frame = cv2.Canny(raw, 30, 75, apertureSize = 3)
+        frame = cv2.Canny(raw, 35, 75, apertureSize = 3)
 
         try:
-            lines = cv2.HoughLines(frame,1,np.pi/180,55)
+            lines = cv2.HoughLines(frame,1,np.pi/180,35)
 
             indices = []
 
             for i, line in enumerate(lines):
                 rho,theta = line[0]
-                if ( theta == 0 or theta == math.radians(180) or (1.4<theta<1.7) ):
+                if ( (-0.1<theta<0.1) or (3.1<theta<3.2)or (1.4<theta<1.75) ):
                     indices.append(i)
 
             lines = np.delete(lines, indices, 0)
@@ -145,6 +145,10 @@ try:
             origin_x = int(cols/2)
             gradient = (rows-y_i)/(origin_x-x_i)
             angle = math.degrees(math.atan(gradient))
+
+            img_center = np.array([int(cols/2), int(rows/2)])
+            cv2.circle(feed, (img_center[0], img_center[1]), 3, (255,0,255), thickness=2)
+            
             if angle < 0:
                 steer = int(90+angle)
                 print("Steer right: " + str(steer))
@@ -172,9 +176,14 @@ try:
                 else:
                     arduino.write(("<" + str(3) + "," + str(3) + ">").encode())
 
+        except KeyboardInterrupt:
+            arduino.write(("<" + str(0) + "," + str(0) + ">").encode())
+            print("All stop")
+            break;
+
         except Exception as e:
             print("No valid lines found: " + str(e))
-            arduino.write(("<" + str(2) + "," + str(1) + ">").encode())
+            arduino.write(("<" + str(1) + "," + str(1) + ">").encode())
 
         end = time.time()
         #print("FPS: " + str(int(1/(end-start))))
@@ -182,11 +191,16 @@ try:
         print("avg_fps: " + str(int(np.mean(fps))))
         
         cv2.imshow('raw',feed)
-        #cv2.imshow('int',gray)
+        #cv2.imshow('int',frame)
         cv2.waitKey(1)
 
-except:
+except KeyboardInterrupt:
+            arduino.write(("<" + str(0) + "," + str(0) + ">").encode())
+            print("All stop")
+
+except Exception as e:
     arduino.write(("<" + str(0) + "," + str(0) + ">").encode())
+    print(e)
 
 arduino.write(("<" + str(0) + "," + str(0) + ">").encode())
 cv2.destroyAllWindows()

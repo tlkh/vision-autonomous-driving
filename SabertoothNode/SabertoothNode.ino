@@ -100,7 +100,7 @@ void replyToPC() {
   if (newDataFromPC) {
     newDataFromPC = false;
     Serial.print("<Left: ");
-    Serial.print(leftSpeed * 11);
+    Serial.print(leftSpeed * 12);
     Serial.print(" right: ");
     Serial.print(rightSpeed * 10);
     Serial.println(">");
