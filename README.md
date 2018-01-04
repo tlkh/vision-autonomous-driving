@@ -19,6 +19,7 @@ An attempt to do robust self-driving using vision techniques on a physical platf
 ### Software Implementation
 
 * OpenCV for vanishing point detection
+* (simple walkthrough: [notebook](https://github.com/tlkh/opencv-experiments/blob/master/Hough%20Line%20Transform.ipynb))
 
 [Video](https://www.youtube.com/watch?v=fQrRkU2MiVI)
 
