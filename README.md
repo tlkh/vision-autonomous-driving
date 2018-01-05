@@ -25,7 +25,7 @@ An attempt to do robust self-driving using vision techniques on a physical platf
 
 ### In Progress
 
-1. Camera calibration
+1. Camera calibration ([notebook](https://github.com/tlkh/opencv-experiments/blob/master/camera_calibration/calibration.ipynb))
 
 ### TODO
 
